@@ -1,0 +1,13 @@
+{
+  "editor.tabSize": 2,
+  "eslint.enable": true,
+  "eslint.nodePath": "./node_modules/eslint/bin/eslint.js",
+  "eslint.workingDirectories": [
+    "./src"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": false
+  },
+  "typescript.preferences.importModuleSpecifier": "relative"
+}

@@ -1,0 +1,152 @@
+{
+	"Generate normal rpc": {
+		"scope": "proto3",
+		"prefix": "gen_rpc",
+		"body": [
+			"/* RPC for $1 */",
+			"rpc ${1/(.)/${1:/upcase}/}(${1/(.)/${1:/upcase}/}Request) returns (${1/(.)/${1:/upcase}/}Response);"
+		]
+	},
+  "Generate crud rpcs": {
+		"scope": "proto3",
+		"prefix": "gen_crudrpc",
+		"body": [
+			"/* Create $1 */",
+			"rpc Create${1/(.)/${1:/upcase}/}(Create${1/(.)/${1:/upcase}/}Request) returns (Create${1/(.)/${1:/upcase}/}Response);",
+			"/* Get $1 */",
+			"rpc Get${1/(.)/${1:/upcase}/}(Get${1/(.)/${1:/upcase}/}Request) returns (Get${1/(.)/${1:/upcase}/}Response);",
+			"/* Update $1 */",
+			"rpc Update${1/(.)/${1:/upcase}/}(Update${1/(.)/${1:/upcase}/}Request) returns (Update${1/(.)/${1:/upcase}/}Response);",
+			"/* Delete $1 */",
+			"rpc Delete${1/(.)/${1:/upcase}/}(Delete${1/(.)/${1:/upcase}/}Request) returns (Delete${1/(.)/${1:/upcase}/}Response);"
+		]
+	},
+
+  "Generate normal request/response ": {
+		"scope": "proto3",
+		"prefix": "gen_reqres",
+		"body": [
+			"/* Request for ${1/(.)/${1:/upcase}/} */",
+			"message ${1/(.)/${1:/upcase}/}Request {",
+			"}",
+			"/* Request for ${1/(.)/${1:/upcase}/} */",
+			"message ${1/(.)/${1:/upcase}/}Response {",
+			"}"
+		],
+		"description": "Generate normal request response pair message"
+	},
+  "Generate crud request/response ": {
+		"scope": "proto3",
+		"prefix": "gen_crudreqres",
+		"body": [
+			"/* Request for Create${1/(.)/${1:/upcase}/} */",
+			"message Create${1/(.)/${1:/upcase}/}Request {",
+			"}",
+			"/* Request for Create${1/(.)/${1:/upcase}/} */",
+			"message Create${1/(.)/${1:/upcase}/}Response {",
+			"}",
+			"/* Request for Get${1/(.)/${1:/upcase}/} */",
+			"message Get${1/(.)/${1:/upcase}/}Request {",
+			"}",
+			"/* Request for Get${1/(.)/${1:/upcase}/} */",
+			"message Get${1/(.)/${1:/upcase}/}Response {",
+			"}",
+			"/* Request for Update${1/(.)/${1:/upcase}/} */",
+			"message Update${1/(.)/${1:/upcase}/}Request {",
+			"}",
+			"/* Request for Update${1/(.)/${1:/upcase}/} */",
+			"message Update${1/(.)/${1:/upcase}/}Response {",
+			"}",
+			"/* Request for Delete${1/(.)/${1:/upcase}/} */",
+			"message Delete${1/(.)/${1:/upcase}/}Request {",
+			"}",
+			"/* Request for Delete${1/(.)/${1:/upcase}/} */",
+			"message Delete${1/(.)/${1:/upcase}/}Response {",
+			"}"
+		],
+		"description": "Generate crud request response pair message"
+	},
+	"Lazy val": {
+		"scope": "typescript",
+		"prefix": "lazy_val",
+		"body": [
+			"private _$1: $2 | undefined = undefined",
+			"get $1(): $2 {",
+			"  if (this._$1 === undefined) {",
+      "    // init code",
+			"  }",
+      "  return this._$1 as $2",
+			"}"
+		]
+	},
+	"Generate model definition": {
+		"scope": "typescript",
+		"prefix": "gen_db_model",
+		"body": [
+			"import { Model, Sequelize, Optional, DataTypes } from \"sequelize\"",
+			"import { ModelSetUp, DbUtil } from \"@lv-levtech/bsd-common-lib\"",
+			"",
+			"export interface $1Attributes {",
+		  "  id: number",
+			"}",
+			"type $1CreationAttributes = Optional<$1Attributes, \"id\">",
+			"",
+			"export class $1",
+			"  extends Model<$1Attributes, $1CreationAttributes>",
+			"  implements $1Attributes {",
+			"  id!: number",
+			"}",
+			"",
+			"export class $1ModelSetUp extends ModelSetUp {",
+			"  constructor(s: Sequelize) {",
+			"    super(s)",
+			"  }",
+			"  setUp(): void {",
+			"    $1.init(",
+			"      {",
+			"        id: ModelSetUp.PrimaryKey",
+			"      },",
+			"      {",
+			"        sequelize: this.sequelize,",
+			"        underscored: true",
+			"      }",
+			"    )",
+			"  }",
+			"}"
+		]
+	},
+	"Generate Entity class": {
+		"scope": "typescript",
+		"prefix": "gen_entity",
+		"body": [
+			"import { NumericIdEntity, IdOf } from \"@lv-levtech/bsd-common-lib\"",
+			"",
+			"export class $1Entity extends NumericIdEntity<$1Entity> {",
+			"  constructor(public id: IdOf<$1Entity>) {",
+			"    super()",
+			"  }",
+			"}"
+		]
+	},
+	"Generate Service class": {
+		"scope": "typescript",
+		"prefix": "gen_service",
+		"body": [
+			"export abstract class $1Service {",
+			"}",
+			"",
+			"export class $1ServiceImpl implements $1Service {",
+			"}"
+		]
+	},
+	"Generate only getter": {
+		"scope": "typescript",
+		"prefix": "prop_getter",
+		"body": [
+			"private _${1/(.)/${1:/downcase}/}: $2",
+      "get ${1/(.)/${1:/downcase}/}(): $2 {",
+      "  return this._${1/(.)/${1:/downcase}/}",
+      "}"
+		]
+	}
+}
